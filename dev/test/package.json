@@ -1,0 +1,26 @@
+{
+  "name": "log-test",
+  "description": "Cyko: Logger (test)",
+  "version": "0.0.1",
+  "main": "test.js",
+  "type": "commonjs",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "eggheadedmonkey",
+    "email": "cyko@eggheadedmonkey.com"
+  },
+  "scripts": {
+    "init": "npm install --save-dev @types/node",
+    "test": "node test.js test 1"
+  },
+  "dependencies": {
+    "log": "file:../.."
+  },
+  "maintainers": [
+    {
+      "name": "eggheadedmonkey",
+      "email": "cyko@eggheadedmonkey.com"
+    }
+  ]
+}

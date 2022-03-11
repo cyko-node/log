@@ -1,0 +1,31 @@
+{
+  "name": "log",
+  "description": "Cyko: Logger",
+  "version": "0.0.1",
+  "main": "lib/log.js",
+  "types": "lib/log.d.ts",
+  "type": "commonjs",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "eggheadedmonkey",
+    "email": "cyko@eggheadedmonkey.com"
+  },
+  "scripts": {
+    "init": "npm install --save-dev @types/node",
+    "test": "node dev/test/test.js test 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cyko-node/nox.git"
+  },
+  "dependencies": {
+    "nox": "file:../nox"
+  },
+  "maintainers": [
+    {
+      "name": "eggheadedmonkey",
+      "email": "cyko@eggheadedmonkey.com"
+    }
+  ]
+}

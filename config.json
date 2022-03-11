@@ -1,0 +1,12 @@
+{
+  "header": {
+    "prefix": "[",
+    "middle": "@",
+    "suffix": "]"
+  },
+
+  "prefix": {
+    "out": "#",
+    "err": "E"
+  }
+}
