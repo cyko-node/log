@@ -122,6 +122,15 @@ declare module 'log' {
 
   /* ----------------------------------------------------------------------- */
 
+  namespace imp {
+    function out(): (...arg: any[]) => void;
+    function err(): (...arg: any[]) => void;
+    function end(): (...arg: any[]) => void;
+    function bug(): (...arg: any[]) => void;
+  };
+
+  /* ----------------------------------------------------------------------- */
+
   /**
    * Prints to `stdout`.
    *
