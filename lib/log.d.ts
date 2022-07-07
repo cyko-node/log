@@ -1,43 +1,10 @@
 /**
- * Cyko - Logger
- *
- * > ---
- *
- * Collection of logging utilites.
- *
- *
- * + Printing to `stdout`
- * + Printing to `stderr`
- *
- * ---
+ * **Cyko** `log` Collection of logging utilities.
  *
  * @author eggheadedmonkey <cyko@eggheadedmonkey.com>
  */
 
 declare module 'log' {
-
-  /**
-   * Get an objective representation of the **package.json** contents.
-   *
-   * ```ts
-   * interface example {
-   *   name: string;
-   *   version: string;
-   *   description: string;
-   *   keywords: string[ ... ];
-   *   license: string;
-   *   author: string | { name: string; email: string; };
-   *   config: { ...; };
-   *   scripts: { ...; };
-   *   dependencies: { ...; };
-   *   repository: { type: string; url: string; };
-   * };
-   * ```
-   */
-
-  function package(): object;
-
-  /* ----------------------------------------------------------------------- */
 
   /**
    * Printable type.
@@ -49,22 +16,6 @@ declare module 'log' {
    * Module configuration ( structure ).
    */
 
-  type configuration = {
-    header: {
-      prefix: output;
-      middle: output | (() => output)
-      suffix: output;
-    };
-    prefix: {
-      out: output;
-      err: output;
-    };
-  };
-
-  /**
-   * Module configuration ( structure ).
-   *
-
   interface configuration {
     header: {
       prefix: output;
@@ -75,128 +26,106 @@ declare module 'log' {
       out: output;
       err: output;
     };
-  };
-  */
+  }
 
-  /**
-   * Module configuraton ( set | get ).
-   *
-   * - All properties are optional.
-   * - All properties have default values.
-   * - All properties (except: head) name a function.
-   *
-   * > ---
-   *
-   * Set any number of properties ( see the {@link configuration} structure ).
-   * ```js
-   * log.config({ property: 'value' });
-   * ```
-   * Get the current configuration.
-   * ```js
-   * log.config();
-   * ```
-   *
-   * > ---
-   *
-   * ```ts
-   * // Printable.
-   * type output = string | number;
-   * // Structure.
-   * type configuration = {
-   *   header: {
-   *     prefix: output;
-   *     middle: output | (() => output);
-   *     suffix: output;
-   *   };
-   *   prefix: {
-   *     out: output;
-   *     err: output;
-   *   };
-   * };
-   * ```
-   *
-   * @returns `this` or the current {@link configuration}.
-   */
+  interface imp {
+    out(...arg: any[]): void;
+    err(...arg: any[]): void;
+    end(...arg: any[]): void;
+    bug(...arg: any[]): void;
+  }
 
-  function config(arg?: configuration | null): log | configuration;
+  interface log {
+    imp: imp
 
-  /* ----------------------------------------------------------------------- */
+    /**
+     * Get an objective representation of the **package.json** contents.
+     */
 
-  namespace imp {
-    function out(): (...arg: any[]) => void;
-    function err(): (...arg: any[]) => void;
-    function end(): (...arg: any[]) => void;
-    function bug(): (...arg: any[]) => void;
-  };
+    package(): object;
 
-  /* ----------------------------------------------------------------------- */
+    /**
+     * Module configuraton ( set / get ).
+     *
+     * + All properties are optional
+     * + All properties have default values
+     *
+     * ```js
+     * // Set/configure
+     * log.config({ property: 'value' });
+     * // Get configuration
+     * .
+     * log.config();
+     * ```
+     *
+     * @returns **this** or the current **{@link configuration}**.
+     */
 
-  /**
-   * Prints to `stdout`.
-   *
-   * @param msg Output.
-   * @param arg Output ( additional ).
-   *
-   * @returns `this`
-   */
+    config(cfg: configuration): log | configuration;
 
-  function out(msg?: any, ...arg: any[]): log;
+    /**
+     * Prints to `stdout`.
+     *
+     * @param msg Output.
+     * @param arg Output ( optional / additional ).
+     */
 
-  /**
-   * Prints to `stderr`.
-   *
-   * @param msg Output.
-   * @param arg Output ( additional ).
-   *
-   * @returns `this`
-   */
+    out(msg:  any, ...arg: any[]): log;
 
-  function err(msg?: any, ...arg: any[]): log;
+    /**
+     * Prints to `stderr`.
+     *
+     * @param msg Output.
+     * @param arg Output ( optional / additional ).
+     */
 
-  /**
-   * Prints newlines ( endings ) to `stdout`.
-   *
-   * @param num Number lines.
-   * @param fun Called twice for each ending ( before and after ).
-   * Return `true` to stop execution.
-   *
-   * @returns `this`
-   */
+    err(msg:  any, ...arg: any[]): log;
 
-  function end(num?: number, fun?: (
+    /**
+     * Prints to `stderr` ( including current stack-trace ).
+     *
+     * ```js
+     * log.bug()
+     * // > Error: ...
+     * // >   at function (path/file:1:1)
+     * // >   at ...
+     * // >   at ...
+     *
+     * log.bug('unexpected value:', null)
+     * // > Error: unexpected value: null
+     * // >   at function (path/file:1:1)
+     * // >   at ...
+     * // >   at ...
+     * ```
+     *
+     * @param msg Output.
+     * @param arg Output ( additionals ).
+     */
+
+    bug(...msg: any[]): log;
+
+    /**
+     * Prints a line without the message part to `stdout`.
+     *
+     * @param lines Number of lines.
+     */
+
+    end(lines?: number, call: (
       self: log,
       next: boolean,
       line: number,
-      ends: number
-    ) => boolean
-  ): log;
+      ends: number) => boolean
+    ): log;
+  }
 
   /**
-   * Prints to `stderr`.
+   * **Cyko** `log` Collection of logging utilities.
    *
-   * Prints a message compiled from the combined arguments, followed by the
-   * current stack-trace.
+   * + Printing to `stdout`
+   * + Printing to `stderr`
    *
-   * ```js
-   * log.bug()
-   * // > Error: runtime failure!'
-   * // >   at function (file:1:1)'
-   * // >   at ...'
-   * // >   at ...'
-   *
-   * log.bug('unexpected value:', null)
-   * // > Error: unexpected value: null
-   * // >   at function (file:1:1)
-   * // >   at ...
-   * // >   at ...
-   * ```
-   *
-   * @param msg Output.
-   * @param arg Output ( additionals ).
-   *
-   * @returns `this`
+   * @author eggheadedmonkey <cyko@eggheadedmonkey.com>
    */
 
-  function bug(msg?: output, arg: any[]): log;
-
-};
+  const log: log; export = log;
+}

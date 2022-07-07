@@ -15,7 +15,9 @@
     "preinstall": "npm install nox",
     "init": "npm install --save-dev @types/node",
     "test": "node dev/test/test.js test 1",
-    "nuke": "pwsh clean.ps1"
+    "nuke": "pwsh clean.ps1",
+    "preredo": "npm run nuke",
+    "redo": "npm install"
   },
   "repository": {
     "type": "git",
@@ -29,5 +31,8 @@
   ],
   "dependencies": {
     "nox": "github:cyko-node/nox#typescript"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21"
   }
 }
